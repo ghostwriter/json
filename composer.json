@@ -1,11 +1,11 @@
 {
-    "name": "ghostwriter/wip",
-    "description": "Here be dragons",
+    "name": "ghostwriter/json",
+    "description": "Safely encode and decode JSON",
     "license": "BSD-3-Clause",
     "type": "library",
     "keywords": [
         "ghostwriter",
-        "wip"
+        "json"
     ],
     "authors": [
         {
@@ -15,13 +15,13 @@
             "role": "Developer"
         }
     ],
-    "homepage": "https://github.com/ghostwriter/wip",
+    "homepage": "https://github.com/ghostwriter/json",
     "support": {
-        "issues": "https://github.com/ghostwriter/wip/issues",
-        "forum": "https://github.com/ghostwriter/wip/discussions",
-        "source": "https://github.com/ghostwriter/wip",
-        "docs": "https://github.com/ghostwriter/wip",
-        "rss": "https://github.com/ghostwriter/wip/releases.atom"
+        "issues": "https://github.com/ghostwriter/json/issues",
+        "forum": "https://github.com/ghostwriter/json/discussions",
+        "source": "https://github.com/ghostwriter/json",
+        "docs": "https://github.com/ghostwriter/json",
+        "rss": "https://github.com/ghostwriter/json/releases.atom"
     },
     "funding": [
         {
@@ -31,8 +31,7 @@
     ],
     "require": {
         "php": ">=8.0,<8.2",
-        "ghostwriter/container": "^0.6.0",
-        "ghostwriter/event-dispatcher": "^0.4.2"
+        "ext-json": "*"
     },
     "require-dev": {
         "infection/infection": "^0.26.13",
@@ -49,22 +48,14 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Ghostwriter\\wip\\": "src/"
-        },
-        "files": [
-            "src/constants.php",
-            "src/functions.php"
-        ]
+            "Ghostwriter\\Json\\": "src/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Ghostwriter\\wip\\Tests\\": "tests/"
+            "Ghostwriter\\Json\\Tests\\": "tests/"
         }
     },
-    "bin": [
-        "bin/my-other-script",
-        "bin/my-script"
-    ],
     "config": {
         "allow-plugins": {
             "infection/extension-installer": true
