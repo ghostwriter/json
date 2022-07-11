@@ -74,10 +74,7 @@ final class JsonTest extends TestCase
         ]));
     }
 
-    /**
-     * @covers \Ghostwriter\Json\Json::encode
-     * @covers \Ghostwriter\Json\Json::prettyPrint
-     */
+    /** @covers \Ghostwriter\Json\Json::encode */
     public function testItPrettyPrints(): void
     {
         $expected = <<<'CODE_SAMPLE'
@@ -86,9 +83,9 @@ final class JsonTest extends TestCase
         }
         CODE_SAMPLE;
 
-        self::assertSame($expected, Json::prettyPrint([
+        self::assertSame($expected, Json::encode([
             'pretty' => 'print',
-        ]));
+        ], Json::PRETTY));
     }
 
     /** @covers \Ghostwriter\Json\Json::decode */
@@ -96,6 +93,13 @@ final class JsonTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         Json::decode("\0");
+    }
+
+    /** @covers \Ghostwriter\Json\Json::encode */
+    public function testThrowsOnMalformedUtf8Characters(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+        Json::encode(["bad utf\xFF"]);
     }
 
     /** @covers \Ghostwriter\Json\Json::decode */
