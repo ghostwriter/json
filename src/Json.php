@@ -28,8 +28,8 @@ final class Json implements JsonInterface
         }
     }
 
-    public static function prettyPrint(mixed $value, ?int $options = null): string
+    public static function prettyPrint(mixed $data, ?int $options = null): string
     {
-        return self::encode($value, ($options ?? 0) | self::PRETTY);
+        return self::encode($data, ($options ?? 0) | self::PRETTY);
     }
 }
