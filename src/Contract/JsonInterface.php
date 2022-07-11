@@ -19,5 +19,5 @@ interface JsonInterface
 
     public static function encode(mixed $data, ?int $options = null): string;
 
-    public static function prettyPrint(mixed $value, ?int $options = null): string;
+    public static function prettyPrint(mixed $data, ?int $options = null): string;
 }
