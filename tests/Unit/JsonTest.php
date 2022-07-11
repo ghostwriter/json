@@ -45,8 +45,9 @@ final class JsonTest extends TestCase
     /** @covers \Ghostwriter\Json\Json::decode */
     public function testItDecodesLargeIntegersToString(): void
     {
+        /** @var array $array */
         $array = JSON::decode('{"large": 9223372036854775808}');
-        self::arrayHasKey('large', $array);
+        self::assertArrayHasKey('large', $array);
         self::assertIsString($array['large']);
         self::assertSame('9223372036854775808', $array['large']);
     }
