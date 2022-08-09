@@ -8,5 +8,10 @@ interface JsonInterface
 {
     public static function decode(string $json): mixed;
 
+    /**
+     * @template T
+     *
+     * @param T $data
+     */
     public static function encode(mixed $data, int $flags = 0): string;
 }
