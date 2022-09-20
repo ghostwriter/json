@@ -29,8 +29,8 @@ final class Json implements JsonInterface
     {
         try {
             return json_decode($json, true, self::DEPTH, self::DECODE);
-        } catch (JsonException $e) {
-            throw new UnexpectedValueException($e->getMessage());
+        } catch (JsonException $jsonException) {
+            throw new UnexpectedValueException($jsonException->getMessage(), $jsonException->getCode(), $jsonException);
         }
     }
 
@@ -38,8 +38,8 @@ final class Json implements JsonInterface
     {
         try {
             return json_encode($data, $flags | self::ENCODE, self::DEPTH);
-        } catch (JsonException $e) {
-            throw new UnexpectedValueException($e->getMessage());
+        } catch (JsonException $jsonException) {
+            throw new UnexpectedValueException($jsonException->getMessage(), $jsonException->getCode(), $jsonException);
         }
     }
 }
