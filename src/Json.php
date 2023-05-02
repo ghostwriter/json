@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ghostwriter\Json;
 
 use Ghostwriter\Json\Contract\JsonInterface;
-use JsonException;
+use Throwable;
 use UnexpectedValueException;
 
 final class Json implements JsonInterface
@@ -29,8 +29,8 @@ final class Json implements JsonInterface
     {
         try {
             return json_decode($json, true, self::DEPTH, self::DECODE);
-        } catch (JsonException $jsonException) {
-            throw new UnexpectedValueException($jsonException->getMessage(), $jsonException->getCode(), $jsonException);
+        } catch (Throwable $throwable) {
+            throw new UnexpectedValueException($throwable->getMessage(), (int) $throwable->getCode(), $throwable);
         }
     }
 
@@ -38,8 +38,8 @@ final class Json implements JsonInterface
     {
         try {
             return json_encode($data, $flags | self::ENCODE, self::DEPTH);
-        } catch (JsonException $jsonException) {
-            throw new UnexpectedValueException($jsonException->getMessage(), $jsonException->getCode(), $jsonException);
+        } catch (Throwable $throwable) {
+            throw new UnexpectedValueException($throwable->getMessage(), (int) $throwable->getCode(), $throwable);
         }
     }
 }
