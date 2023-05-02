@@ -5,22 +5,14 @@ declare(strict_types=1);
 namespace Ghostwriter\Json\Tests\Unit;
 
 use Ghostwriter\Json\Json;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use UnexpectedValueException;
 
-/**
- * @coversDefaultClass \Ghostwriter\Json\Json
- *
- * @internal
- *
- * @small
- */
+#[CoversClass(Json::class)]
 final class JsonTest extends TestCase
 {
-    /**
-     * @covers \Ghostwriter\Json\Json::decode
-     */
     public function testDecode(): void
     {
         self::assertSame([], Json::decode('{}'));
@@ -31,7 +23,6 @@ final class JsonTest extends TestCase
         self::assertSame(['test', 2], Json::decode('["test",2]'));
     }
 
-    /** @covers \Ghostwriter\Json\Json::encode */
     public function testEncode(): void
     {
         self::assertSame('{}', Json::encode(new stdClass()));
@@ -42,23 +33,20 @@ final class JsonTest extends TestCase
         self::assertSame('["test",2]', Json::encode(['test', 2]));
     }
 
-    /** @covers \Ghostwriter\Json\Json::decode */
     public function testItDecodesLargeIntegersToString(): void
     {
         /** @var array $array */
-        $array = JSON::decode('{"large": 9223372036854775808}');
+        $array = Json::decode('{"large": 9223372036854775808}');
         self::assertArrayHasKey('large', $array);
         self::assertIsString($array['large']);
         self::assertSame('9223372036854775808', $array['large']);
     }
 
-    /** @covers \Ghostwriter\Json\Json::decode */
     public function testItDecodesToAnArrayByDefault(): void
     {
-        self::assertIsArray(JSON::decode('{"foo": "bar"}'));
+        self::assertIsArray(Json::decode('{"foo": "bar"}'));
     }
 
-    /** @covers \Ghostwriter\Json\Json::encode */
     public function testItDoesNotEscapeSlashes(): void
     {
         self::assertSame('{"slash":"/"}', Json::encode([
@@ -66,7 +54,6 @@ final class JsonTest extends TestCase
         ]));
     }
 
-    /** @covers \Ghostwriter\Json\Json::encode */
     public function testItDoesNotEscapeUnicode(): void
     {
         self::assertSame('{"emoji":"🚀"}', Json::encode([
@@ -74,7 +61,6 @@ final class JsonTest extends TestCase
         ]));
     }
 
-    /** @covers \Ghostwriter\Json\Json::encode */
     public function testItPrettyPrints(): void
     {
         $expected = <<<'CODE_SAMPLE'
@@ -88,21 +74,18 @@ final class JsonTest extends TestCase
         ], Json::PRETTY));
     }
 
-    /** @covers \Ghostwriter\Json\Json::decode */
     public function testThrowsOnControlCharacterError(): void
     {
         $this->expectException(UnexpectedValueException::class);
         Json::decode("\0");
     }
 
-    /** @covers \Ghostwriter\Json\Json::encode */
     public function testThrowsOnMalformedUtf8Characters(): void
     {
         $this->expectException(UnexpectedValueException::class);
         Json::encode(["bad utf\xFF"]);
     }
 
-    /** @covers \Ghostwriter\Json\Json::decode */
     public function testThrowsOnSyntaxError(): void
     {
         $this->expectException(UnexpectedValueException::class);
