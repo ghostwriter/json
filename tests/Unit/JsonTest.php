@@ -77,18 +77,24 @@ final class JsonTest extends TestCase
     public function testThrowsOnControlCharacterError(): void
     {
         $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionCode(3);
+        $this->expectExceptionMessage('Control character error, possibly incorrectly encoded');
         Json::decode("\0");
     }
 
     public function testThrowsOnMalformedUtf8Characters(): void
     {
         $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionCode(5);
+        $this->expectExceptionMessage('Malformed UTF-8 characters, possibly incorrectly encoded');
         Json::encode(["bad utf\xFF"]);
     }
 
     public function testThrowsOnSyntaxError(): void
     {
         $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionCode(4);
+        $this->expectExceptionMessage('Syntax error');
         Json::decode('{');
     }
 }
