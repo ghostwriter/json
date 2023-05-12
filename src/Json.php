@@ -30,7 +30,7 @@ final class Json implements JsonInterface
         try {
             return json_decode($json, true, self::DEPTH, self::DECODE);
         } catch (Throwable $throwable) {
-            throw new UnexpectedValueException($throwable->getMessage(), (int) $throwable->getCode(), $throwable);
+            throw new UnexpectedValueException($throwable->getMessage());
         }
     }
 
@@ -39,7 +39,7 @@ final class Json implements JsonInterface
         try {
             return json_encode($data, $flags | self::ENCODE, self::DEPTH);
         } catch (Throwable $throwable) {
-            throw new UnexpectedValueException($throwable->getMessage(), (int) $throwable->getCode(), $throwable);
+            throw new UnexpectedValueException($throwable->getMessage());
         }
     }
 }
