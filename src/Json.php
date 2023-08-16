@@ -6,8 +6,10 @@ namespace Ghostwriter\Json;
 
 use Throwable;
 use UnexpectedValueException;
+
 use const JSON_ERROR_NONE;
 use const JSON_INVALID_UTF8_IGNORE;
+
 use function json_decode;
 use function json_last_error;
 
@@ -54,20 +56,15 @@ final readonly class Json implements JsonInterface
      */
     public static function validate(string $json, int $flags = self::EMPTY): bool
     {
-        try {
-            /** @psalm-suppress UnusedFunctionCall */
-            json_decode(
-                $json,
-                true,
-                self::DEPTH,
-                $flags === self::EMPTY ? self::EMPTY : self::IGNORE
-            );
+        /** @psalm-suppress UnusedFunctionCall */
+        json_decode(
+            $json,
+            true,
+            self::DEPTH,
+            $flags === self::EMPTY ? self::EMPTY : self::IGNORE
+        );
 
-            return json_last_error() === JSON_ERROR_NONE;
-        } catch (Throwable $throwable) {
-            return false;
-        }
-
+        return json_last_error() === JSON_ERROR_NONE;
         // return \json_validate($json, $flags === self::EMPTY ? self::EMPTY : self::IGNORE);
     }
 }

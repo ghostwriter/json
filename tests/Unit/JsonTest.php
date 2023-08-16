@@ -18,7 +18,7 @@ final class JsonTest extends TestCase
         self::assertSame([], Json::decode('{}'));
         self::assertSame([], Json::decode('[]'));
         self::assertSame([
-            'test'=>'',
+            'test' => '',
         ], Json::decode('{"test":""}'));
         self::assertSame(['test', 2], Json::decode('["test",2]'));
     }
@@ -28,7 +28,7 @@ final class JsonTest extends TestCase
         self::assertSame('{}', Json::encode(new stdClass()));
         self::assertSame('[]', Json::encode([]));
         self::assertSame('{"test":""}', Json::encode([
-            'test'=>'',
+            'test' => '',
         ]));
         self::assertSame('["test",2]', Json::encode(['test', 2]));
     }
@@ -110,5 +110,7 @@ final class JsonTest extends TestCase
         self::assertFalse(Json::validate(''));
 
         self::assertTrue(Json::validate('null'));
+
+        self::assertFalse(Json::validate('\0'));
     }
 }
