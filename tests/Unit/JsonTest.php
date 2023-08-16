@@ -94,4 +94,21 @@ final class JsonTest extends TestCase
         $this->expectExceptionMessage('Syntax error');
         Json::decode('{');
     }
+
+    public function testValidate(): void
+    {
+        self::assertTrue(Json::validate('[1, 2, 3]'));
+
+        self::assertFalse(Json::validate('{1, 2, 3]'));
+
+        self::assertTrue(Json::validate('[1, 2, 3]', Json::IGNORE));
+
+        self::assertFalse(Json::validate("[\"\xc1\xc1\",\"a\"]"));
+
+        self::assertTrue(Json::validate("[\"\xc1\xc1\",\"a\"]", Json::IGNORE));
+
+        self::assertFalse(Json::validate(''));
+
+        self::assertTrue(Json::validate('null'));
+    }
 }
