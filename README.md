@@ -26,6 +26,8 @@ use \Ghostwriter\Json\Json;
 $encode = Json::encode(['foo'=>'bar']);
 // {"foo":"bar"}
 
+Json::validate($encode); // true
+
 $decode = Json::decode($encode);
 // ['foo'=>'bar']
 
