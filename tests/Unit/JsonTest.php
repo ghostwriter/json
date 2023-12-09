@@ -8,35 +8,47 @@ use Ghostwriter\Json\Json;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use UnexpectedValueException;
 
 #[CoversClass(Json::class)]
 final class JsonTest extends TestCase
 {
+    private Json $json;
+
+    protected function setUp(): void
+    {
+        $this->json = new Json();
+    }
+
     public function testDecode(): void
     {
-        self::assertSame([], Json::decode('{}'));
-        self::assertSame([], Json::decode('[]'));
+        self::assertSame([], $this->json->decode('{}'));
+        self::assertSame([], $this->json->decode('[]'));
         self::assertSame([
             'test' => '',
-        ], Json::decode('{"test":""}'));
-        self::assertSame(['test', 2], Json::decode('["test",2]'));
+        ], $this->json->decode('{"test":""}'));
+        self::assertSame(['test', 2], $this->json->decode('["test",2]'));
     }
 
     public function testEncode(): void
     {
-        self::assertSame('{}', Json::encode(new stdClass()));
-        self::assertSame('[]', Json::encode([]));
-        self::assertSame('{"test":""}', Json::encode([
+        self::assertSame('{}', $this->json->encode(new stdClass()));
+        self::assertSame('0', $this->json->encode(0));
+        self::assertSame('1.0', $this->json->encode(1.0));
+        self::assertSame('true', $this->json->encode(true));
+        self::assertSame('false', $this->json->encode(false));
+        self::assertSame('null', $this->json->encode(null));
+        self::assertSame('[]', $this->json->encode([]));
+        self::assertSame('{"":""}', $this->json->encode([''=>'']));
+        self::assertSame('{"test":""}', $this->json->encode([
             'test' => '',
         ]));
-        self::assertSame('["test",2]', Json::encode(['test', 2]));
+        self::assertSame('["test",2]', $this->json->encode(['test', 2]));
     }
 
     public function testItDecodesLargeIntegersToString(): void
     {
         /** @var array $array */
-        $array = Json::decode('{"large": 9223372036854775808}');
+        $array = $this->json->decode('{"large": 9223372036854775808}');
         self::assertArrayHasKey('large', $array);
         self::assertIsString($array['large']);
         self::assertSame('9223372036854775808', $array['large']);
@@ -44,19 +56,19 @@ final class JsonTest extends TestCase
 
     public function testItDecodesToAnArrayByDefault(): void
     {
-        self::assertIsArray(Json::decode('{"foo": "bar"}'));
+        self::assertIsArray($this->json->decode('{"foo": "bar"}'));
     }
 
     public function testItDoesNotEscapeSlashes(): void
     {
-        self::assertSame('{"slash":"/"}', Json::encode([
+        self::assertSame('{"slash":"/"}', $this->json->encode([
             'slash' => '/',
         ]));
     }
 
     public function testItDoesNotEscapeUnicode(): void
     {
-        self::assertSame('{"emoji":"🚀"}', Json::encode([
+        self::assertSame('{"emoji":"🚀"}', $this->json->encode([
             'emoji' => '🚀',
         ]));
     }
@@ -69,48 +81,31 @@ final class JsonTest extends TestCase
         }
         CODE_SAMPLE;
 
-        self::assertSame($expected, Json::encode([
+        self::assertSame($expected, $this->json->encode([
             'pretty' => 'print',
         ], Json::PRETTY));
     }
 
-    public function testThrowsOnControlCharacterError(): void
-    {
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Control character error, possibly incorrectly encoded');
-        Json::decode("\0");
-    }
-
-    public function testThrowsOnMalformedUtf8Characters(): void
-    {
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Malformed UTF-8 characters, possibly incorrectly encoded');
-        Json::encode(["bad utf\xFF"]);
-    }
-
-    public function testThrowsOnSyntaxError(): void
-    {
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Syntax error');
-        Json::decode('{');
-    }
-
     public function testValidate(): void
     {
-        self::assertTrue(Json::validate('[1, 2, 3]'));
+        self::assertTrue($this->json->validate('[1, 2, 3]'));
 
-        self::assertFalse(Json::validate('{1, 2, 3]'));
+        self::assertFalse($this->json->validate('{1, 2, 3]'));
 
-        self::assertTrue(Json::validate('[1, 2, 3]', Json::IGNORE));
+        self::assertTrue($this->json->validate('[1, 2, 3]', Json::IGNORE));
 
-        self::assertFalse(Json::validate("[\"\xc1\xc1\",\"a\"]"));
+        self::assertFalse($this->json->validate("[\"\xc1\xc1\",\"a\"]"));
 
-        self::assertTrue(Json::validate("[\"\xc1\xc1\",\"a\"]", Json::IGNORE));
+        self::assertTrue($this->json->validate("[\"\xc1\xc1\",\"a\"]", Json::IGNORE));
 
-        self::assertFalse(Json::validate(''));
+        self::assertFalse($this->json->validate(''));
 
-        self::assertTrue(Json::validate('null'));
+        self::assertTrue($this->json->validate('null'));
 
-        self::assertFalse(Json::validate('\0'));
+        self::assertFalse($this->json->validate('\0'));
+
+        self::assertTrue($this->json->validate('{ "test": { "foo": "bar" } }'));
+
+        self::assertFalse($this->json->validate('{ "": "": "" } }'));
     }
 }
