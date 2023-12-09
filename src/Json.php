@@ -4,67 +4,69 @@ declare(strict_types=1);
 
 namespace Ghostwriter\Json;
 
+use Ghostwriter\Json\Exception\JsonException;
+use Ghostwriter\Json\Interface\JsonExceptionInterface;
+use Ghostwriter\Json\Interface\JsonInterface;
 use Throwable;
-use UnexpectedValueException;
-
-use const JSON_ERROR_NONE;
-use const JSON_INVALID_UTF8_IGNORE;
-
 use function json_decode;
-use function json_last_error;
+use function json_encode;
+use function json_validate;
 
 /** @psalm-immutable */
 final readonly class Json implements JsonInterface
 {
-    /** @var int */
-    public const DECODE = JSON_BIGINT_AS_STRING | JSON_OBJECT_AS_ARRAY | JSON_THROW_ON_ERROR;
-
-    /** @var int */
-    public const DEPTH = 512;
-
-    /** @var int */
-    public const EMPTY = 0;
-
-    /** @var int */
-    public const ENCODE = JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR;
-
-    public const IGNORE = JSON_INVALID_UTF8_IGNORE;
-
-    /** @var int */
-    public const PRETTY = self::ENCODE | JSON_PRETTY_PRINT;
-
-    public static function decode(string $json): mixed
+    /**
+     * @template TDecode
+     * @return TDecode
+     *
+     * @throws JsonExceptionInterface
+     * @pure
+     */
+    public function decode(string $json): mixed
     {
         try {
-            return json_decode($json, true, self::DEPTH, self::DECODE);
+            /** @var TDecode $value */
+            $value = json_decode(
+                $json,
+                true,
+                self::DEPTH,
+                self::DECODE
+            );
         } catch (Throwable $throwable) {
-            throw new UnexpectedValueException($throwable->getMessage());
+            throw new JsonException($throwable->getMessage());
         }
+
+        return $value;
     }
-
-    public static function encode(mixed $data, int $flags = self::EMPTY): string
+    /**
+     * @template TEncode
+     * @param TEncode $data
+     *
+     * @throws JsonExceptionInterface
+     * @pure
+     */
+    public function encode(mixed $data, int $flags = self::EMPTY): string
     {
         try {
-            return json_encode($data, $flags | self::ENCODE, self::DEPTH);
+            /** @var string $value */
+            $value = json_encode(
+                $data,
+                $flags | self::ENCODE,
+                self::DEPTH
+            );
         } catch (Throwable $throwable) {
-            throw new UnexpectedValueException($throwable->getMessage());
+            throw new JsonException($throwable->getMessage(), 0, $throwable);
         }
+
+        return $value;
     }
 
     /**
      * @psalm-assert-if-true non-empty-string $json
+     * @pure
      */
-    public static function validate(string $json, int $flags = self::EMPTY): bool
+    public function validate(string $json, int $flags = self::EMPTY): bool
     {
-        /** @psalm-suppress UnusedFunctionCall */
-        json_decode(
-            $json,
-            true,
-            self::DEPTH,
-            $flags === self::EMPTY ? self::EMPTY : self::IGNORE
-        );
-
-        return json_last_error() === JSON_ERROR_NONE;
-        // return \json_validate($json, $flags === self::EMPTY ? self::EMPTY : self::IGNORE);
+        return json_validate($json, self::DEPTH, $flags === self::EMPTY ? self::EMPTY : self::IGNORE);
     }
 }
