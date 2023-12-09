@@ -2,9 +2,11 @@
 
 [![Compliance](https://github.com/ghostwriter/json/actions/workflows/compliance.yml/badge.svg)](https://github.com/ghostwriter/json/actions/workflows/compliance.yml)
 [![Supported PHP Version](https://badgen.net/packagist/php/ghostwriter/json?color=8892bf)](https://www.php.net/supported-versions)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/ghostwriter?label=Sponsor+@ghostwriter/json&logo=GitHub+Sponsors)](https://github.com/sponsors/ghostwriter)
 [![Mutation Coverage](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fghostwriter%2Fjson%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/ghostwriter/json/main)
 [![Code Coverage](https://codecov.io/gh/ghostwriter/json/branch/main/graph/badge.svg)](https://codecov.io/gh/ghostwriter/json)
 [![Type Coverage](https://shepherd.dev/github/ghostwriter/json/coverage.svg)](https://shepherd.dev/github/ghostwriter/json)
+[![Psalm Level](https://shepherd.dev/github/ghostwriter/json/level.svg)](https://psalm.dev/docs/running_psalm/error_levels)
 [![Latest Version on Packagist](https://badgen.net/packagist/v/ghostwriter/json)](https://packagist.org/packages/ghostwriter/json)
 [![Downloads](https://badgen.net/packagist/dt/ghostwriter/json?color=blue)](https://packagist.org/packages/ghostwriter/json)
 
@@ -23,43 +25,35 @@ composer require ghostwriter/json
 ```php
 use \Ghostwriter\Json\Json;
 
-$encode = Json::encode(['foo'=>'bar']);
+$json = new Json();
+
+$encode = $json->encode(['foo'=>'bar']);
 // {"foo":"bar"}
 
-Json::validate($encode); // true
+$json->validate($encode); // true
 
-$decode = Json::decode($encode);
+$decode = $json->decode($encode);
 // ['foo'=>'bar']
 
-Json::encode($decode, Json::PRETTY); 
+$json->encode($decode, Json::PRETTY); 
 // {
 //    "foo":"bar"
 // }
 ```
 
-## Testing
-
-``` bash
-composer test
-```
-
-## Changelog
-
-Please see [CHANGELOG.md](./CHANGELOG.md) for more information what has changed recently.
-
-## Security
-
-If you discover any security related issues, please email `nathanael.esayeas@protonmail.com` instead of using the issue tracker.
-
-## Sponsors
-
-[[`Become a GitHub Sponsor`](https://github.com/sponsors/ghostwriter)]
-
-## Credits
+### Credits
 
 - [Nathanael Esayeas](https://github.com/ghostwriter)
 - [All Contributors](https://github.com/ghostwriter/json/contributors)
 
-## License
+### Changelog
 
-The BSD-3-Clause. Please see [License File](./LICENSE) for more information.
+Please see [CHANGELOG.md](./CHANGELOG.md) for more information on what has changed recently.
+
+### License
+
+Please see [LICENSE](./LICENSE) for more information on the license that applies to this project.
+
+### Security
+
+Please see [SECURITY.md](./SECURITY.md) for more information on security disclosure process.
