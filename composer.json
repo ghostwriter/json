@@ -30,7 +30,7 @@
         }
     ],
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "ext-json": "*"
     },
     "require-dev": {
@@ -50,16 +50,14 @@
         }
     },
     "config": {
-        "classmap-authoritative": true,
         "discard-changes": true,
         "optimize-autoloader": true,
+        "platform": {
+            "php": "8.3.999"
+        },
         "preferred-install": "dist",
         "prepend-autoloader": true,
-        "process-timeout": 5000,
-        "sort-packages": true,
-        "platform": {
-            "php": "8.2.999"
-        }
+        "sort-packages": true
     },
     "scripts": {
         "cache:clear": [
