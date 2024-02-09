@@ -9,7 +9,6 @@
         findUnusedBaselineEntry="true"
         findUnusedCode="true"
         findUnusedPsalmSuppress="true"
-        phpVersion="8.2"
 >
     <projectFiles>
         <directory name="src"/>
