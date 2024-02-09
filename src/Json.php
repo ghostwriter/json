@@ -7,66 +7,90 @@ namespace Ghostwriter\Json;
 use Ghostwriter\Json\Exception\JsonException;
 use Ghostwriter\Json\Interface\JsonExceptionInterface;
 use Ghostwriter\Json\Interface\JsonInterface;
+use Ghostwriter\JsonTests\Unit\JsonTest;
+use JsonSerializable;
 use Throwable;
+
+use const JSON_BIGINT_AS_STRING;
+use const JSON_INVALID_UTF8_IGNORE;
+use const JSON_OBJECT_AS_ARRAY;
+use const JSON_PRESERVE_ZERO_FRACTION;
+use const JSON_PRETTY_PRINT;
+use const JSON_THROW_ON_ERROR;
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
+
 use function json_decode;
 use function json_encode;
 use function json_validate;
 
-/** @psalm-immutable */
+/**
+ * @see JsonTest
+ *
+ * @psalm-immutable
+ */
 final readonly class Json implements JsonInterface
 {
     /**
-     * @template TDecode
-     * @return TDecode
+     * @template TDecodeKey
+     * @template TDecodeValue
      *
      * @throws JsonExceptionInterface
+     *
+     * @return array<TDecodeKey,TDecodeValue>
+     *
      * @pure
      */
-    public function decode(string $json): mixed
+    public function decode(string $json): array
     {
         try {
-            /** @var TDecode $value */
-            $value = json_decode(
+            /** @var array<TDecodeKey,TDecodeValue> $result */
+            $result = json_decode(
                 $json,
                 true,
-                self::DEPTH,
-                self::DECODE
+                512,
+                JSON_BIGINT_AS_STRING | JSON_OBJECT_AS_ARRAY | JSON_THROW_ON_ERROR
             );
         } catch (Throwable $throwable) {
             throw new JsonException($throwable->getMessage());
         }
 
-        return $value;
+        return $result;
     }
+
     /**
      * @template TEncode
+     *
      * @param TEncode $data
      *
      * @throws JsonExceptionInterface
+     *
      * @pure
      */
-    public function encode(mixed $data, int $flags = self::EMPTY): string
+    public function encode(mixed $data, bool $prettyPrint = false): string
     {
         try {
-            /** @var string $value */
-            $value = json_encode(
+            /** @var JsonSerializable|string $value */
+            return json_encode(
                 $data,
-                $flags | self::ENCODE,
-                self::DEPTH
+                JSON_PRESERVE_ZERO_FRACTION
+                | JSON_UNESCAPED_SLASHES
+                | JSON_UNESCAPED_UNICODE
+                | JSON_THROW_ON_ERROR
+                | ($prettyPrint ? JSON_PRETTY_PRINT : 0)
             );
         } catch (Throwable $throwable) {
             throw new JsonException($throwable->getMessage(), 0, $throwable);
         }
-
-        return $value;
     }
 
     /**
      * @psalm-assert-if-true non-empty-string $json
+     *
      * @pure
      */
-    public function validate(string $json, int $flags = self::EMPTY): bool
+    public function validate(string $json, bool $ignoreInvalidUtf8 = false): bool
     {
-        return json_validate($json, self::DEPTH, $flags === self::EMPTY ? self::EMPTY : self::IGNORE);
+        return json_validate($json, 512, $ignoreInvalidUtf8 ? JSON_INVALID_UTF8_IGNORE : 0);
     }
 }
