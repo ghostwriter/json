@@ -35,7 +35,7 @@ $json->validate($encode); // true
 $decode = $json->decode($encode);
 // ['foo'=>'bar']
 
-$json->encode($decode, Json::PRETTY); 
+$json->encode($decode, true); 
 // {
 //    "foo":"bar"
 // }
