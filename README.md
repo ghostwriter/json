@@ -20,6 +20,10 @@ You can install the package via composer:
 composer require ghostwriter/json
 ```
 
+### Star ⭐️ this repo if you find it useful
+
+You can also star (🌟) this repo to find it easier later.
+
 ## Usage
 
 ```php
@@ -35,7 +39,8 @@ $json->validate($encode); // true
 $decode = $json->decode($encode);
 // ['foo'=>'bar']
 
-$json->encode($decode, true); 
+$prettyPrint = true;
+$json->encode($decode, $prettyPrint); 
 // {
 //    "foo":"bar"
 // }
