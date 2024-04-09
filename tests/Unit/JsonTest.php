@@ -18,7 +18,9 @@ final class JsonTest extends TestCase
 
         self::assertSame([], $json->decode('{}'));
         self::assertSame([], $json->decode('[]'));
-        self::assertSame(['test' => ''], $json->decode('{"test":""}'));
+        self::assertSame([
+            'test' => '',
+        ], $json->decode('{"test":""}'));
         self::assertSame(['test', 2], $json->decode('["test",2]'));
     }
 
@@ -33,8 +35,12 @@ final class JsonTest extends TestCase
         self::assertSame('false', $json->encode(false));
         self::assertSame('null', $json->encode(null));
         self::assertSame('[]', $json->encode([]));
-        self::assertSame('{"":""}', $json->encode([''=>'']));
-        self::assertSame('{"test":""}', $json->encode(['test' => '']));
+        self::assertSame('{"":""}', $json->encode([
+            ''=>'',
+        ]));
+        self::assertSame('{"test":""}', $json->encode([
+            'test' => '',
+        ]));
         self::assertSame('["test",2]', $json->encode(['test', 2]));
     }
 
@@ -69,7 +75,9 @@ final class JsonTest extends TestCase
     {
         $json = new Json();
 
-        self::assertSame('{"emoji":"🚀"}', $json->encode(['emoji' => '🚀']));
+        self::assertSame('{"emoji":"🚀"}', $json->encode([
+            'emoji' => '🚀',
+        ]));
     }
 
     public function testItPrettyPrints(): void
@@ -81,7 +89,9 @@ final class JsonTest extends TestCase
         CODE_SAMPLE;
 
         $json = new Json();
-        self::assertSame($expected, $json->encode(['pretty' => 'print'], true));
+        self::assertSame($expected, $json->encode([
+            'pretty' => 'print',
+        ], true));
     }
 
     public function testValidate(): void
