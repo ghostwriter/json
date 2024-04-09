@@ -1,2 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494"/>
+<files psalm-version="5.23.1@8471a896ccea3526b26d082f4461eeea467f10a4">
+  <file src="src/Json.php">
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function decode(string $json): array]]></code>
+      <code><![CDATA[public function encode(mixed $data, bool $prettyPrint = false): string]]></code>
+      <code><![CDATA[public function validate(string $json, bool $ignoreInvalidUtf8 = false): bool]]></code>
+    </MissingOverrideAttribute>
+  </file>
+  <file src="tests/Unit/JsonTest.php">
+    <PossiblyUndefinedStringArrayOffset>
+      <code><![CDATA[$array['large']]]></code>
+    </PossiblyUndefinedStringArrayOffset>
+  </file>
+</files>
