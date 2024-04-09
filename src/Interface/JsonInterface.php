@@ -10,9 +10,10 @@ interface JsonInterface
      * @template TDecodeKey
      * @template TDecodeValue
      *
+     * @throws JsonExceptionInterface
+     *
      * @return array<TDecodeKey,TDecodeValue>
      *
-     * @throws JsonExceptionInterface
      */
     public function decode(string $json): array;
 
