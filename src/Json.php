@@ -11,6 +11,10 @@ use Ghostwriter\JsonTests\Unit\JsonTest;
 use JsonSerializable;
 use Throwable;
 
+use function json_decode;
+use function json_encode;
+use function json_validate;
+
 use const JSON_BIGINT_AS_STRING;
 use const JSON_INVALID_UTF8_IGNORE;
 use const JSON_OBJECT_AS_ARRAY;
@@ -19,10 +23,6 @@ use const JSON_PRETTY_PRINT;
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
-
-use function json_decode;
-use function json_encode;
-use function json_validate;
 
 /**
  * @see JsonTest
