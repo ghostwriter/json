@@ -83,10 +83,10 @@ final class JsonTest extends TestCase
     public function testItPrettyPrints(): void
     {
         $expected = <<<'CODE_SAMPLE'
-        {
-            "pretty": "print"
-        }
-        CODE_SAMPLE;
+            {
+                "pretty": "print"
+            }
+            CODE_SAMPLE;
 
         $json = new Json();
         self::assertSame($expected, $json->encode([
