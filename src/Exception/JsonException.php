@@ -11,6 +11,4 @@ use RuntimeException;
 /**
  * @see JsonExceptionTest
  */
-final class JsonException extends RuntimeException implements JsonExceptionInterface
-{
-}
+final class JsonException extends RuntimeException implements JsonExceptionInterface {}
