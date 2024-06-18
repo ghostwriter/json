@@ -10,6 +10,10 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
+use const JSON_PRETTY_PRINT;
+
+use function json_encode;
+
 #[CoversClass(Json::class)]
 final class JsonTest extends TestCase
 {
@@ -98,13 +102,12 @@ final class JsonTest extends TestCase
 
     public function testItPrettyPrints(): void
     {
-        $expected = <<<'CODE_SAMPLE'
-            {
-                "pretty": "print"
-            }
-            CODE_SAMPLE;
+        $expected = json_encode([
+            'pretty'=>'print',
+        ], JSON_PRETTY_PRINT);
 
         $json = new Json();
+
         self::assertSame($expected, $json->encode([
             'pretty' => 'print',
         ], true));
