@@ -7,13 +7,10 @@ namespace Ghostwriter\Json;
 use Ghostwriter\Json\Exception\JsonException;
 use Ghostwriter\Json\Interface\JsonExceptionInterface;
 use Ghostwriter\Json\Interface\JsonInterface;
-use Ghostwriter\JsonTests\Unit\JsonTest;
 use JsonSerializable;
+use Override;
+use Tests\Unit\JsonTest;
 use Throwable;
-
-use function json_decode;
-use function json_encode;
-use function json_validate;
 
 use const JSON_BIGINT_AS_STRING;
 use const JSON_INVALID_UTF8_IGNORE;
@@ -24,6 +21,10 @@ use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
 
+use function json_decode;
+use function json_encode;
+use function json_validate;
+
 /**
  * @see JsonTest
  *
@@ -32,7 +33,7 @@ use const JSON_UNESCAPED_UNICODE;
 final readonly class Json implements JsonInterface
 {
     /**
-     * @template TDecodeKey
+     * @template TDecodeKey of array-key
      * @template TDecodeValue
      *
      * @throws JsonExceptionInterface
@@ -41,6 +42,7 @@ final readonly class Json implements JsonInterface
      *
      * @pure
      */
+    #[Override]
     public function decode(string $json): array
     {
         try {
@@ -67,6 +69,7 @@ final readonly class Json implements JsonInterface
      *
      * @pure
      */
+    #[Override]
     public function encode(mixed $data, bool $prettyPrint = false): string
     {
         try {
@@ -89,6 +92,7 @@ final readonly class Json implements JsonInterface
      *
      * @pure
      */
+    #[Override]
     public function validate(string $json, bool $ignoreInvalidUtf8 = false): bool
     {
         return json_validate($json, 512, $ignoreInvalidUtf8 ? JSON_INVALID_UTF8_IGNORE : 0);
