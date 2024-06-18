@@ -6,4 +6,6 @@ namespace Ghostwriter\Json\Interface;
 
 use Throwable;
 
-interface JsonExceptionInterface extends Throwable {}
+interface JsonExceptionInterface extends Throwable
+{
+}
