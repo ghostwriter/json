@@ -7,7 +7,7 @@ namespace Ghostwriter\Json\Interface;
 interface JsonInterface
 {
     /**
-     * @template TDecodeKey
+     * @template TDecodeKey of array-key
      * @template TDecodeValue
      *
      * @throws JsonExceptionInterface
