@@ -21,7 +21,8 @@
         "forum": "https://github.com/ghostwriter/json/discussions",
         "source": "https://github.com/ghostwriter/json",
         "docs": "https://github.com/ghostwriter/json",
-        "rss": "https://github.com/ghostwriter/json/releases.atom"
+        "rss": "https://github.com/ghostwriter/json/releases.atom",
+        "security": "https://github.com/ghostwriter/json/security/advisories/new"
     },
     "funding": [
         {
@@ -29,6 +30,7 @@
             "url": "https://github.com/sponsors/ghostwriter"
         }
     ],
+    "_comment": "#BlackLivesMatter",
     "require": {
         "php": ">=8.3",
         "ext-json": "*"
