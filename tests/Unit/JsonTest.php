@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ghostwriter\JsonTests\Unit;
+namespace Tests\Unit;
 
+use Ghostwriter\Json\Interface\JsonExceptionInterface;
 use Ghostwriter\Json\Json;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -44,14 +45,20 @@ final class JsonTest extends TestCase
         self::assertSame('["test",2]', $json->encode(['test', 2]));
     }
 
+    /**
+     * @throws JsonExceptionInterface
+     */
     public function testItDecodesLargeIntegersToString(): void
     {
         $json = new Json();
 
-        /** @var array $array */
+        /** @var array{large:int|string} $array */
         $array = $json->decode('{"large": 9223372036854775808}');
+
         self::assertArrayHasKey('large', $array);
+
         self::assertIsString($array['large']);
+
         self::assertSame('9223372036854775808', $array['large']);
     }
 
@@ -77,6 +84,15 @@ final class JsonTest extends TestCase
 
         self::assertSame('{"emoji":"🚀"}', $json->encode([
             'emoji' => '🚀',
+        ]));
+    }
+
+    public function testItPreservesZeroFraction(): void
+    {
+        $json = new Json();
+
+        self::assertSame('{"zero":0.0}', $json->encode([
+            'zero' => 0.0,
         ]));
     }
 
