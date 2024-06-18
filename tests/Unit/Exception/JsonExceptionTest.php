@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ghostwriter\JsonTests\Unit\Exception;
+namespace Tests\Unit\Exception;
 
 use Ghostwriter\Json\Exception\JsonException;
 use Ghostwriter\Json\Interface\JsonExceptionInterface;
