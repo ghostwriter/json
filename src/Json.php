@@ -20,6 +20,10 @@ use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
 
+use function json_decode;
+use function json_encode;
+use function json_validate;
+
 /**
  * @see JsonTest
  *
@@ -47,7 +51,7 @@ final readonly class Json implements JsonInterface
     {
         try {
             /** @var array<TDecodeKey,TDecodeValue> $result */
-            $result = \json_decode(
+            $result = json_decode(
                 $json,
                 true,
                 512,
@@ -74,7 +78,7 @@ final readonly class Json implements JsonInterface
     {
         try {
             /** @var false|non-empty-string $value */
-            $value = \json_encode(
+            $value = json_encode(
                 $data,
                 JSON_PRESERVE_ZERO_FRACTION
                 | JSON_UNESCAPED_SLASHES
@@ -87,7 +91,7 @@ final readonly class Json implements JsonInterface
             throw new JsonException($throwable->getMessage(), 0, $throwable);
         }
 
-        if ($value === false) {
+        if (false === $value) {
             throw new JsonException('Failed to encode JSON data.');
         }
 
@@ -102,6 +106,6 @@ final readonly class Json implements JsonInterface
     #[Override]
     public function validate(string $json, bool $ignoreInvalidUtf8 = false): bool
     {
-        return \json_validate($json, 512, $ignoreInvalidUtf8 ? JSON_INVALID_UTF8_IGNORE : 0);
+        return json_validate($json, 512, $ignoreInvalidUtf8 ? JSON_INVALID_UTF8_IGNORE : 0);
     }
 }
