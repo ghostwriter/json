@@ -1747,12 +1747,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ghostwriter/coding-standard.git",
-                "reference": "a395065e178551271c93c7099fede9a66773f7d5"
+                "reference": "15574d058d28e48abc2e1ebb2d3e65c916a294db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ghostwriter/coding-standard/zipball/a395065e178551271c93c7099fede9a66773f7d5",
-                "reference": "a395065e178551271c93c7099fede9a66773f7d5",
+                "url": "https://api.github.com/repos/ghostwriter/coding-standard/zipball/15574d058d28e48abc2e1ebb2d3e65c916a294db",
+                "reference": "15574d058d28e48abc2e1ebb2d3e65c916a294db",
                 "shasum": ""
             },
             "require": {
@@ -1769,7 +1769,7 @@
                 "vimeo/psalm": "<6.0"
             },
             "require-dev": {
-                "ghostwriter/container": "^4.0.3",
+                "ghostwriter/container": "^4.0.5",
                 "ghostwriter/filesystem": "^0.1.1",
                 "ghostwriter/shell": "^0.1.0"
             },
@@ -1824,7 +1824,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-31T09:19:20+00:00"
+            "time": "2025-02-02T01:50:43+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -6154,7 +6154,7 @@
         "php": ">=8.3",
         "ext-json": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.3.999"
     },
