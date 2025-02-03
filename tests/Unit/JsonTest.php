@@ -13,6 +13,8 @@ use Throwable;
 
 use const JSON_PRETTY_PRINT;
 
+use function json_encode;
+
 #[CoversClass(Json::class)]
 final class JsonTest extends TestCase
 {
@@ -141,7 +143,7 @@ final class JsonTest extends TestCase
      */
     public function testItPrettyPrints(): void
     {
-        $expected = \json_encode([
+        $expected = json_encode([
             'pretty'=>'print',
         ], JSON_PRETTY_PRINT);
 
