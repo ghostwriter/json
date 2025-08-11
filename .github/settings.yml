@@ -3,7 +3,6 @@
   "description": "Safely encode and decode JSON"
   "homepage": "https://github.com/ghostwriter/json"
   "topics": "ghostwriter, json"
-  "private": false
   "has_issues": true
   "has_projects": false
   "has_wiki": false
