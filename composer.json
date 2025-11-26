@@ -85,6 +85,10 @@
             "container": {
                 "definition": "Ghostwriter\\Json\\Container\\JsonDefinition"
             }
+        },
+        "thanks": {
+            "url": "https://github.com/ghostwriter/json",
+            "name": "ghostwriter/json"
         }
     },
     "scripts": {
