@@ -87,8 +87,8 @@
             }
         },
         "thanks": {
-            "url": "https://github.com/ghostwriter/json",
-            "name": "ghostwriter/json"
+            "name": "ghostwriter/json",
+            "url": "https://github.com/ghostwriter/json"
         }
     },
     "scripts": {
