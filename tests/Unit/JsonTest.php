@@ -18,33 +18,25 @@ use function json_encode;
 #[CoversClass(Json::class)]
 final class JsonTest extends TestCase
 {
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testDecodeArray(): void
     {
         self::assertSame(['test', 2], Json::new()->decode('["test",2]'));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testDecodeWithEmptyArray(): void
     {
         self::assertSame([], Json::new()->decode('[]'));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testDecodeWithEmptyObject(): void
     {
         self::assertSame([], Json::new()->decode('{}'));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testDecodeWithEmptyStringObjectKeyAndValue(): void
     {
         self::assertSame([
@@ -52,9 +44,7 @@ final class JsonTest extends TestCase
         ], Json::new()->decode('{"":""}'));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testDecodeWithEmptyStringObjectValue(): void
     {
         self::assertSame([
@@ -62,9 +52,7 @@ final class JsonTest extends TestCase
         ], Json::new()->decode('{"test":""}'));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testEncode(): void
     {
         $json = Json::new();
@@ -85,9 +73,7 @@ final class JsonTest extends TestCase
         self::assertSame('["test",2]', $json->encode(['test', 2]));
     }
 
-    /**
-     * @throws JsonExceptionInterface
-     */
+    /** @throws JsonExceptionInterface */
     public function testItDecodesLargeIntegersToString(): void
     {
         /** @var array{large:int|string} $array */
@@ -100,17 +86,13 @@ final class JsonTest extends TestCase
         self::assertSame('9223372036854775808', $array['large']);
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testItDecodesToAnArrayByDefault(): void
     {
         self::assertIsArray(Json::new()->decode('{"foo": "bar"}'));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testItDoesNotEscapeSlashes(): void
     {
         self::assertSame('{"slash":"/"}', Json::new()->encode([
@@ -118,9 +100,7 @@ final class JsonTest extends TestCase
         ]));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testItDoesNotEscapeUnicode(): void
     {
         self::assertSame('{"emoji":"🚀"}', Json::new()->encode([
@@ -128,9 +108,7 @@ final class JsonTest extends TestCase
         ]));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testItPreservesZeroFraction(): void
     {
         self::assertSame('{"zero":0.0}', Json::new()->encode([
@@ -138,9 +116,7 @@ final class JsonTest extends TestCase
         ]));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testItPrettyPrints(): void
     {
         $expected = json_encode([
@@ -152,9 +128,7 @@ final class JsonTest extends TestCase
         ], true));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testValidate(): void
     {
         $json = Json::new();
@@ -180,83 +154,63 @@ final class JsonTest extends TestCase
         self::assertFalse($json->validate('{ "": "": "" } }'));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testValidateInvalidControlCharacter(): void
     {
         self::assertFalse(Json::new()->validate('\0'));
 
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testValidateInvalidEmptyString(): void
     {
         self::assertFalse(Json::new()->validate(''));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testValidateInvalidObject(): void
     {
         self::assertFalse(Json::new()->validate('{ "": "": "" } }'));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testValidateInvalidString(): void
     {
         self::assertFalse(Json::new()->validate('{1, 2, 3]'));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testValidateInvalidStringWithInvalidUtf8(): void
     {
         self::assertFalse(Json::new()->validate("[\"\xc1\xc1\",\"a\"]"));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testValidateValidArray(): void
     {
         self::assertTrue(Json::new()->validate('[1, 2, 3]'));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testValidateValidArrayIgnoreInvalidUtf8(): void
     {
         self::assertTrue(Json::new()->validate('[1, 2, 3]', true));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testValidateValidNull(): void
     {
         self::assertTrue(Json::new()->validate('null'));
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testValidateValidObject(): void
     {
         self::assertTrue(Json::new()->validate('{ "test": { "foo": "bar" } }'));
 
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testValidateValidStringWithIgnoreInvalidUtf8(): void
     {
         self::assertTrue(Json::new()->validate("[\"\xc1\xc1\",\"a\"]", true));
