@@ -44,10 +44,6 @@
 "repository":
   "name": "json"
   "description": "Safely encode and decode JSON"
-  "topics":
-    - "ghostwriter"
-    - "json"
-    - "php"
   "homepage": "https://github.com/ghostwriter/json"
   "default_branch": "3.0.x"
   "allow_auto_merge": true
